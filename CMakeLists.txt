@@ -1,0 +1,71 @@
+cmake_minimum_required(VERSION 3.3)
+set(LOG4CPP_LIBRARY log4cpp)
+
+project(${LOG4CPP_LIBRARY} CXX)
+
+include(GNUInstallDirs)
+
+# Version of LOG4CPP API.
+SET( LOG4CPP_MAJOR_VERSION 0 )
+SET( LOG4CPP_MINOR_VERSION 3 )
+SET( LOG4CPP_BUILD_VERSION 5 )
+
+
+SET(LOG4CPP_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+
+# Version of project.
+SET( LOG4CPP_FULL_VERSION ${LOG4CPP_MAJOR_VERSION}.${LOG4CPP_MINOR_VERSION}.${LOG4CPP_BUILD_VERSION} ) 
+
+# All cpp files for LOG4CPP
+FILE(GLOB LOG4CPP_SRCS RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
+   "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
+)
+
+# All header files for LOG4CPP
+FILE(GLOB LOG4CPP_HEADERS RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}"
+   "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"  
+   "${CMAKE_CURRENT_SOURCE_DIR}/include/*/*.h" 
+   "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hh"  
+   "${CMAKE_CURRENT_SOURCE_DIR}/include/*/*.hh" 
+   "${CMAKE_CURRENT_SOURCE_DIR}/include/*/*/*.hh"
+)
+
+# LOG4CPP shared library definition
+ADD_LIBRARY(${LOG4CPP_LIBRARY} ${LOG4CPP_SRCS} ${LOG4CPP_HEADERS})
+set_property(TARGET ${LOG4CPP_LIBRARY} PROPERTY COMPILE_DEFINITIONS LOG4CPP_DLL)
+
+IF(WIN32)
+	target_link_libraries(${LOG4CPP_LIBRARY} wsock32)
+ENDIF(WIN32)
+
+# make the name of debug libraries end in _d.
+set_property(TARGET ${LOG4CPP_LIBRARY} PROPERTY DEBUG_POSTFIX "_d" )
+
+# set the version of the library
+set_property(TARGET ${LOG4CPP_LIBRARY} PROPERTY VERSION ${LOG4CPP_FULL_VERSION} )
+
+# set fPIC
+set_property(TARGET ${LOG4CPP_LIBRARY} PROPERTY POSITION_INDEPENDENT_CODE ON)
+
+if(WIN32)
+  add_definitions("-DLOG4CPP_HAS_DLL")
+  add_definitions("-DLOG4CPP_BUILD_DLL")
+endif(WIN32)
+
+set_target_properties(${LOG4CPP_LIBRARY} PROPERTIES
+        OUTPUT_NAME ${LOG4CPP_LIBRARY}
+        ARCHIVE_OUTPUT_DIRECTORY lib
+    )
+
+install(TARGETS ${LOG4CPP_LIBRARY}
+  EXPORT library_targets
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  )
+
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+install(EXPORT library_targets
+  NAMESPACE ubitrack_log4cpp::
+  DESTINATION lib/cmake/ubitrack_log4cpp)
