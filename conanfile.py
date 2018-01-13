@@ -22,6 +22,8 @@ class Ubitracklog4cppConan(ConanFile):
         cmake.install()
 
     def package_info(self):
+        if self.options.shared and self.settings.os == "Windows":
+            self.cpp_info.defines.append("LOG4CPP_HAS_DLL")
         suffix = ""
         if self.settings.build_type == "Debug":
             suffix = "_d"
