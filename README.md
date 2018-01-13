@@ -2,8 +2,6 @@
 
 [Conan.io](https://conan.io) package for log4cpp library. 
 
-The packages generated with this **conanfile** can be found in [conan.io](https://conan.io/source/ubitrack_log4cpp/0.3.5/ulricheck/stable).
-
 ## Build packages
 
     $ pip install conan_package_tools
@@ -11,20 +9,20 @@ The packages generated with this **conanfile** can be found in [conan.io](https:
     
 ## Upload packages to server
 
-    $ conan upload ubitrack_log4cpp/0.3.5@ulricheck/stable --all
+    $ conan upload ubitrack_log4cpp/0.3.5@camposs/stable --all
     
 ## Reuse the packages
 
 ### Basic setup
 
-    $ conan install ubitrack_log4cpp/0.3.5@ulricheck/stable
+    $ conan install ubitrack_log4cpp/0.3.5@camposs/stable
     
 ### Project setup
 
 If you handle multiple dependencies in your project is better to add a *conanfile.txt*
     
     [requires]
-    ubitrack_log4cpp/0.3.5@ulricheck/stable
+    ubitrack_log4cpp/0.3.5@camposs/stable
 
     [options]
     ubitrack_log4cpp:shared=true # false
