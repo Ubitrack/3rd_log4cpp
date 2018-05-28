@@ -2,16 +2,12 @@
 
 [Conan.io](https://conan.io) package for log4cpp library. 
 
-## Build packages
+## Add Remotes
 
-    $ pip install conan_package_tools
-    $ python build.py
-    
-## Upload packages to server
+    $ conan remote add camposs "https://conan.campar.in.tum.de/api/conan/conan-camposs"
+    $ conan remote add ubitrack "https://conan.campar.in.tum.de/api/conan/conan-ubitrack"
 
-    $ conan upload ubitrack_log4cpp/0.3.5@camposs/stable --all
-    
-## Reuse the packages
+## For Users: Use this package
 
 ### Basic setup
 
@@ -33,9 +29,23 @@ If you handle multiple dependencies in your project is better to add a *conanfil
 
 Complete the installation of requirements for your project running:</small></span>
 
-    conan install . 
+    $ mkdir build && cd build && conan install .. 
 
 Project setup installs the library (and all his dependencies) and generates the files *conanbuildinfo.txt* and *conanbuildinfo.cmake* with all the paths and variables that you need to link with your dependencies.
+
+## For Packagers: Publish this Package
+
+The example below shows the commands used to publish to campar conan repository. To publish to your own conan respository (for example, after forking this git repository), you will need to change the commands below accordingly. 
+
+## Build packages
+
+    $ conan create . ubitrack/stable
+
+## Upload packages to server
+
+    $ conan upload -r ubitrack ubitrack_log4cpp/0.3.5@camposs/stable --all
+
+
 
 
 Notes on changes to original log4cpp library:
