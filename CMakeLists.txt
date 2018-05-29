@@ -75,7 +75,7 @@ write_basic_package_version_file("${CMAKE_CURRENT_SOURCE_DIR}/log4cppConfigVersi
   COMPATIBILITY SameMajorVersion)
 
 install (FILES "log4cppConfig.cmake" "log4cppConfigVersion.cmake"
-  DESTINATION lib/cmake/log4cpp)
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/log4cpp)
 
 install(EXPORT ${LOG4CPP_LIBRARY}Targets
   FILE log4cppTargets.cmake
