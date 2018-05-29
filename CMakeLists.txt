@@ -40,9 +40,10 @@ target_include_directories(${LOG4CPP_LIBRARY} PUBLIC
 
 IF(WIN32)
   IF(BUILD_SHARED_LIBS)
-    target_compile_definitions(${LOG4CPP_LIBRARY} LOG4CPP_HAS_DLL)
+    target_compile_definitions(${LOG4CPP_LIBRARY} PUBLIC "LOG4CPP_HAS_DLL")
+    target_compile_definitions(${LOG4CPP_LIBRARY} PUBLIC "LOG4CPP_BUILD_DLL")
   ENDIF(BUILD_SHARED_LIBS)
-	target_link_libraries(${LOG4CPP_LIBRARY} wsock32)
+	target_link_libraries(${LOG4CPP_LIBRARY} PUBLIC wsock32)
 ENDIF(WIN32)
 
 # make the name of debug libraries end in _d.
@@ -53,11 +54,6 @@ set_target_properties(${LOG4CPP_LIBRARY} PROPERTIES VERSION ${LOG4CPP_FULL_VERSI
 
 # set fPIC
 set_target_properties(${LOG4CPP_LIBRARY} PROPERTIES POSITION_INDEPENDENT_CODE ON)
-
-if(WIN32)
-  target_compile_definitions(${LOG4CPP_LIBRARY} PUBLIC "-DLOG4CPP_HAS_DLL")
-  target_compile_definitions(${LOG4CPP_LIBRARY} PUBLIC "-DLOG4CPP_BUILD_DLL")
-endif(WIN32)
 
 set_target_properties(${LOG4CPP_LIBRARY} PROPERTIES 
         OUTPUT_NAME ${LOG4CPP_LIBRARY}
