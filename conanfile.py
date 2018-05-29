@@ -12,7 +12,7 @@ class Ubitracklog4cppConan(ConanFile):
     default_options = "shared=False"
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
-    exports_sources = "include/*", "src/*", "CMakeLists.txt"
+    exports_sources = "include/*", "src/*", "CMakeLists.txt", "log4cppConfig.cmake"
 
     def build(self):
         cmake = CMake(self)

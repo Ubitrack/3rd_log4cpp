@@ -40,39 +40,49 @@ target_include_directories(${LOG4CPP_LIBRARY} PUBLIC
 
 IF(WIN32)
   IF(BUILD_SHARED_LIBS)
-    set_property(TARGET ${LOG4CPP_LIBRARY} PROPERTY COMPILE_DEFINITIONS LOG4CPP_HAS_DLL)
+    target_compile_definitions(${LOG4CPP_LIBRARY} LOG4CPP_HAS_DLL)
   ENDIF(BUILD_SHARED_LIBS)
 	target_link_libraries(${LOG4CPP_LIBRARY} wsock32)
 ENDIF(WIN32)
 
 # make the name of debug libraries end in _d.
-set_property(TARGET ${LOG4CPP_LIBRARY} PROPERTY DEBUG_POSTFIX "_d" )
+set_target_properties(${LOG4CPP_LIBRARY} PROPERTIES DEBUG_POSTFIX "_d" )
 
 # set the version of the library
-set_property(TARGET ${LOG4CPP_LIBRARY} PROPERTY VERSION ${LOG4CPP_FULL_VERSION} )
+set_target_properties(${LOG4CPP_LIBRARY} PROPERTIES VERSION ${LOG4CPP_FULL_VERSION} )
 
 # set fPIC
-set_property(TARGET ${LOG4CPP_LIBRARY} PROPERTY POSITION_INDEPENDENT_CODE ON)
+set_target_properties(${LOG4CPP_LIBRARY} PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 if(WIN32)
-  add_definitions("-DLOG4CPP_HAS_DLL")
-  add_definitions("-DLOG4CPP_BUILD_DLL")
+  target_compile_definitions(${LOG4CPP_LIBRARY} PUBLIC "-DLOG4CPP_HAS_DLL")
+  target_compile_definitions(${LOG4CPP_LIBRARY} PUBLIC "-DLOG4CPP_BUILD_DLL")
 endif(WIN32)
 
-set_target_properties(${LOG4CPP_LIBRARY} PROPERTIES
+set_target_properties(${LOG4CPP_LIBRARY} PROPERTIES 
         OUTPUT_NAME ${LOG4CPP_LIBRARY}
-        ARCHIVE_OUTPUT_DIRECTORY lib
+        ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_INSTALL_LIBDIR}
     )
 
 install(TARGETS ${LOG4CPP_LIBRARY}
-  EXPORT library_targets
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
+  EXPORT "log4cppTargets"
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   )
 
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(EXPORT library_targets
-  NAMESPACE ubitrack_log4cpp::
-  DESTINATION lib/cmake/ubitrack_log4cpp)
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file("${CMAKE_CURRENT_SOURCE_DIR}/log4cppConfigVersion.cmake"
+  VERSION ${LOG4CPP_FULL_VERSION}
+  COMPATIBILITY SameMajorVersion)
+
+install (FILES "log4cppConfig.cmake" "log4cppConfigVersion.cmake"
+  DESTINATION lib/cmake/log4cpp)
+
+install(EXPORT ${LOG4CPP_LIBRARY}Targets
+  FILE log4cppTargets.cmake
+  NAMESPACE log4cpp::
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/log4cpp
+)
