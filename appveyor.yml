@@ -4,12 +4,14 @@ environment:
     PYTHON_VERSION: "3.6.3"
     PYTHON_ARCH: "64"
     
+    VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
     CONAN_UPLOAD: "https://conan.campar.in.tum.de/api/conan/conan-ubitrack"
     CONAN_REMOTES: "https://conan.campar.in.tum.de/api/conan/conan-camposs"
     CONAN_REFERENCE: "ubitrack_log4cpp/0.3.5"
     CONAN_USERNAME: "ubitrack"
+    CONAN_LOGIN_USERNAME: "ubitrack"
     CONAN_CHANNEL: "stable"
-    CONAN_STABLE_BRANCH_PATTERN: "release/*"
+    CONAN_STABLE_BRANCH_PATTERN: "stable/*"
     
     matrix:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
