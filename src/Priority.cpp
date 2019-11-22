@@ -38,7 +38,7 @@ namespace log4cpp {
     }
 
     Priority::Value Priority::getPriorityValue(const std::string& priorityName) 
-    throw(std::invalid_argument) {
+    throw() {
 		for (unsigned int i = 0; names[i].level >= 0; i++)
 		    if (priorityName == names[i].name)
 	            return names[i].level;

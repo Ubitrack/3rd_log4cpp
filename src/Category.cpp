@@ -67,7 +67,7 @@ namespace log4cpp {
     }
 
     void Category::setPriority(Priority::Value priority)
-    throw(std::invalid_argument) {
+    throw() {
         if (priority < Priority::NOTSET) 
             _priority = _chainedPriority = priority;
 		else
@@ -97,7 +97,7 @@ namespace log4cpp {
 	}
     
     void Category::addAppender(Appender* appender) 
-    throw(std::invalid_argument) {
+    throw() {
         if (appender) {
             threading::ScopedLock lock(_appenderSetMutex);
             {

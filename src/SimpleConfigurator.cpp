@@ -42,7 +42,7 @@
 
 namespace log4cpp {
 
-    void SimpleConfigurator::configure(const std::string& initFileName) throw (ConfigureFailure) {
+    void SimpleConfigurator::configure(const std::string& initFileName) throw() {
         std::ifstream initFile(initFileName.c_str());
         
         if (!initFile) {
@@ -52,7 +52,7 @@ namespace log4cpp {
         configure(initFile);
     }
           
-    void SimpleConfigurator::configure(std::istream& initFile) throw (ConfigureFailure) {
+    void SimpleConfigurator::configure(std::istream& initFile) throw() {
         std::string nextCommand;
         std::string categoryName;
         
